@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Muscu">
+<meta name="theme-color" content="#0f172a">
+<title>Programme Salle</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%230f172a'/><text x='90' y='118' font-size='110' text-anchor='middle' font-family='-apple-system'>💪</text></svg>">
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card-2: #334155;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #3b82f6;
+    --accent-2: #06b6d4;
+    --done: #10b981;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overscroll-behavior-y: contain;
+  }
+  body {
+    padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+    max-width: 560px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+  header {
+    padding: 18px 4px 8px;
+  }
+  h1 {
+    font-size: 22px;
+    margin: 0 0 2px;
+    letter-spacing: -0.01em;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .day-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 14px 0 10px;
+    scrollbar-width: none;
+  }
+  .day-tabs::-webkit-scrollbar { display: none; }
+  .day-tab {
+    flex-shrink: 0;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    user-select: none;
+  }
+  .day-tab.active {
+    background: var(--accent);
+    color: white;
+  }
+  .day-tab.rest { opacity: 0.6; }
+  .progress-wrap {
+    margin: 8px 0 16px;
+    padding: 14px 16px;
+    background: var(--card);
+    border-radius: 14px;
+  }
+  .progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .progress-label {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .progress-count {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .progress-bar {
+    height: 8px;
+    background: var(--card-2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+  .group-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 18px 4px 8px;
+    font-weight: 700;
+  }
+  .exercise {
+    background: var(--card);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    padding: 14px 14px 14px 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s, transform 0.05s;
+  }
+  .exercise:active { transform: scale(0.99); }
+  .exercise.done {
+    background: rgba(16, 185, 129, 0.12);
+  }
+  .exercise.done .ex-name {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+  .check {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--card-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    margin-top: 2px;
+    transition: all 0.15s;
+  }
+  .exercise.done .check {
+    background: var(--done);
+    border-color: var(--done);
+  }
+  .ex-body { flex: 1; min-width: 0; }
+  .ex-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    line-height: 1.25;
+  }
+  .ex-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+  .pill {
+    background: var(--card-2);
+    padding: 3px 9px;
+    border-radius: 999px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .pill.sets { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+  .pill.reps { background: rgba(6, 182, 212, 0.2); color: #67e8f9; }
+  .pill.rest { background: rgba(245, 158, 11, 0.2); color: #fcd34d; cursor: pointer; }
+  .rest-day {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--muted);
+  }
+  .rest-day .emoji { font-size: 56px; }
+  .rest-day h2 { font-size: 18px; color: var(--text); }
+  footer {
+    padding: 24px 4px 32px;
+    display: flex;
+    gap: 10px;
+  }
+  .btn {
+    flex: 1;
+    padding: 13px;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--card);
+    color: var(--text);
+  }
+  .btn.primary { background: var(--accent); color: white; }
+  .btn.danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+
+  /* Rest timer overlay */
+  .timer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    flex-direction: column;
+    padding: 20px;
+  }
+  .timer-overlay.show { display: flex; }
+  .timer-circle {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .timer-circle svg { transform: rotate(-90deg); }
+  .timer-circle circle {
+    fill: none;
+    stroke-width: 10;
+  }
+  .timer-bg { stroke: var(--card-2); }
+  .timer-fg {
+    stroke: var(--accent-2);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s linear;
+  }
+  .timer-text {
+    position: absolute;
+    font-size: 56px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .timer-label {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .timer-buttons {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 320px;
+  }
+  .timer-buttons .btn { padding: 14px; font-size: 15px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="page-title">Programme Salle 💪</h1>
+  <p class="subtitle" id="today-label"></p>
+</header>
+
+<div class="day-tabs" id="day-tabs"></div>
+
+<div class="progress-wrap" id="progress-wrap">
+  <div class="progress-row">
+    <span class="progress-label">Progression du jour</span>
+    <span class="progress-count" id="progress-count">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<div id="exercises"></div>
+
+<footer>
+  <button class="btn primary" onclick="markAllDone()">Tout cocher</button>
+  <button class="btn danger" onclick="resetDay()">Réinitialiser</button>
+</footer>
+
+<div class="timer-overlay" id="timer-overlay">
+  <div class="timer-label" id="timer-exercise">Repos</div>
+  <div class="timer-circle">
+    <svg width="240" height="240">
+      <circle class="timer-bg" cx="120" cy="120" r="110"></circle>
+      <circle class="timer-fg" id="timer-fg" cx="120" cy="120" r="110"
+              stroke-dasharray="691" stroke-dashoffset="0"></circle>
+    </svg>
+    <div class="timer-text" id="timer-text">60</div>
+  </div>
+  <div class="timer-buttons">
+    <button class="btn" onclick="addTime(15)">+15s</button>
+    <button class="btn primary" onclick="closeTimer()">Fermer</button>
+  </div>
+</div>
+
+<script>
+  const PROGRAM = {
+    Lundi: [
+      { group: "Pectoraux", name: "Chest Press machine", sets: 4, reps: "10-12", rest: 90 },
+      { group: "Pectoraux", name: "Pec Deck (Butterfly)", sets: 4, reps: "12", rest: 75 },
+      { group: "Triceps", name: "Triceps Pushdown (poulie)", sets: 3, reps: "12", rest: 60 },
+      { group: "Triceps", name: "Dips assistés (machine)", sets: 3, reps: "8-10", rest: 90 },
+      { group: "Cardio", name: "Tapis incliné ou vélo", sets: 1, reps: "10-15 min", rest: 0 },
+    ],
+    Mardi: [
+      { group: "Dos", name: "Lat Pulldown (tirage vertical)", sets: 4, reps: "10-12", rest: 90 },
+      { group: "Dos", name: "Seated Row machine", sets: 4, reps: "10-12", rest: 90 },
+      { group: "Biceps", name: "Biceps Curl machine", sets: 3, reps: "12", rest: 60 },
+      { group: "Arrière épaules", name: "Face Pull (poulie)", sets: 3, reps: "12-15", rest: 60 },
+      { group: "Cardio", name: "Tapis incliné ou vélo", sets: 1, reps: "10-15 min", rest: 0 },
+    ],
+    Mercredi: [],
+    Jeudi: [
+      { group: "Jambes", name: "Leg Press machine", sets: 4, reps: "10-12", rest: 120 },
+      { group: "Quadriceps", name: "Leg Extension", sets: 3, reps: "12", rest: 60 },
+      { group: "Ischios", name: "Leg Curl", sets: 3, reps: "12", rest: 60 },
+      { group: "Mollets", name: "Calf Raise machine", sets: 4, reps: "15", rest: 60 },
+      { group: "Cardio", name: "Tapis incliné ou vélo", sets: 1, reps: "10-15 min", rest: 0 },
+    ],
+    Vendredi: [
+      { group: "Épaules", name: "Shoulder Press machine", sets: 4, reps: "10-12", rest: 90 },
+      { group: "Épaules", name: "Lateral Raise machine", sets: 3, reps: "12-15", rest: 60 },
+      { group: "Abdos", name: "Ab Crunch machine", sets: 4, reps: "15", rest: 45 },
+      { group: "Abdos", name: "Cable Crunch", sets: 3, reps: "15", rest: 45 },
+      { group: "Cardio", name: "Tapis incliné ou vélo", sets: 1, reps: "10-15 min", rest: 0 },
+    ],
+    Samedi: [],
+    Dimanche: [],
+  };
+
+  const DAY_ORDER = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
+  function getTodayName() {
+    const idx = (new Date().getDay() + 6) % 7;
+    return DAY_ORDER[idx];
+  }
+
+  function getStorageKey(day) {
+    const today = new Date().toISOString().slice(0, 10);
+    return `muscu_${today}_${day}`;
+  }
+
+  function loadDone(day) {
+    try { return JSON.parse(localStorage.getItem(getStorageKey(day)) || "[]"); }
+    catch (e) { return []; }
+  }
+
+  function saveDone(day, doneArr) {
+    try { localStorage.setItem(getStorageKey(day), JSON.stringify(doneArr)); }
+    catch (e) {}
+  }
+
+  let currentDay = getTodayName();
+
+  function renderDayTabs() {
+    const today = getTodayName();
+    const tabs = document.getElementById("day-tabs");
+    tabs.innerHTML = "";
+    DAY_ORDER.forEach(day => {
+      const tab = document.createElement("div");
+      tab.className = "day-tab";
+      if (day === currentDay) tab.classList.add("active");
+      if (PROGRAM[day].length === 0) tab.classList.add("rest");
+      tab.textContent = day === today ? day + " (auj.)" : day;
+      tab.onclick = () => { currentDay = day; renderAll(); };
+      tabs.appendChild(tab);
+    });
+  }
+
+  function renderExercises() {
+    const container = document.getElementById("exercises");
+    container.innerHTML = "";
+    const exos = PROGRAM[currentDay];
+    if (exos.length === 0) {
+      container.innerHTML = `
+        <div class="rest-day">
+          <div class="emoji">😴</div>
+          <h2>Jour de repos</h2>
+          <p>Profite, étire-toi, hydrate-toi.</p>
+        </div>`;
+      document.getElementById("progress-wrap").style.display = "none";
+      return;
+    }
+    document.getElementById("progress-wrap").style.display = "block";
+
+    const done = loadDone(currentDay);
+    let lastGroup = null;
+    exos.forEach((ex, i) => {
+      if (ex.group !== lastGroup) {
+        const title = document.createElement("div");
+        title.className = "group-title";
+        title.textContent = ex.group;
+        container.appendChild(title);
+        lastGroup = ex.group;
+      }
+      const card = document.createElement("div");
+      card.className = "exercise" + (done.includes(i) ? " done" : "");
+      card.innerHTML = `
+        <div class="check">${done.includes(i) ? "✓" : ""}</div>
+        <div class="ex-body">
+          <div class="ex-name">${ex.name}</div>
+          <div class="ex-meta">
+            ${ex.sets > 1 ? `<span class="pill sets">${ex.sets} séries</span>` : ""}
+            <span class="pill reps">${ex.reps}${ex.sets === 1 ? "" : " reps"}</span>
+            ${ex.rest > 0 ? `<span class="pill rest" data-rest="${ex.rest}" data-name="${ex.name}">⏱ ${ex.rest}s repos</span>` : ""}
+          </div>
+        </div>`;
+      card.onclick = (e) => {
+        if (e.target.classList.contains("rest")) {
+          startTimer(parseInt(e.target.dataset.rest), e.target.dataset.name);
+          return;
+        }
+        toggleDone(i);
+      };
+      container.appendChild(card);
+    });
+    updateProgress();
+  }
+
+  function toggleDone(idx) {
+    const done = loadDone(currentDay);
+    const pos = done.indexOf(idx);
+    if (pos >= 0) done.splice(pos, 1);
+    else done.push(idx);
+    saveDone(currentDay, done);
+    renderExercises();
+  }
+
+  function updateProgress() {
+    const total = PROGRAM[currentDay].length;
+    const done = loadDone(currentDay).length;
+    document.getElementById("progress-count").textContent = `${done} / ${total}`;
+    document.getElementById("progress-fill").style.width = total ? (done / total * 100) + "%" : "0%";
+  }
+
+  function markAllDone() {
+    const exos = PROGRAM[currentDay];
+    saveDone(currentDay, exos.map((_, i) => i));
+    renderExercises();
+  }
+
+  function resetDay() {
+    if (confirm("Réinitialiser la séance du " + currentDay + " ?")) {
+      saveDone(currentDay, []);
+      renderExercises();
+    }
+  }
+
+  // Rest timer
+  let timerInterval = null;
+  let timerRemaining = 0;
+  let timerTotal = 0;
+  const CIRCUMFERENCE = 691;
+
+  function startTimer(seconds, name) {
+    timerRemaining = seconds;
+    timerTotal = seconds;
+    document.getElementById("timer-exercise").textContent = name + " — Repos";
+    document.getElementById("timer-overlay").classList.add("show");
+    updateTimerDisplay();
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timerRemaining--;
+      updateTimerDisplay();
+      if (timerRemaining <= 0) {
+        clearInterval(timerInterval);
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        beep();
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    document.getElementById("timer-text").textContent = Math.max(0, timerRemaining);
+    const offset = CIRCUMFERENCE * (1 - Math.max(0, timerRemaining) / timerTotal);
+    document.getElementById("timer-fg").style.strokeDashoffset = offset;
+  }
+
+  function addTime(s) {
+    timerRemaining += s;
+    timerTotal += s;
+    updateTimerDisplay();
+  }
+
+  function closeTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    document.getElementById("timer-overlay").classList.remove("show");
+  }
+
+  function beep() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.5);
+    } catch (e) {}
+  }
+
+  function renderAll() {
+    renderDayTabs();
+    renderExercises();
+    document.getElementById("today-label").textContent =
+      currentDay === getTodayName() ? "Séance du jour" : "Séance du " + currentDay;
+  }
+
+  renderAll();
+</script>
+</body>
+</html>
