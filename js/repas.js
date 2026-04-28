@@ -2,13 +2,8 @@ function getMealCount(id) { return mealCounts[id] || 0; }
 
 function changeMealCount(meal, delta) {
   const next = Math.max(0, getMealCount(meal.id) + delta);
-  if (next === 0) {
-    delete mealCounts[meal.id];
-    meal.ingredients.forEach(ing => delete checkedItems[meal.id + "_" + ing.name]);
-    saveCheckedItems();
-  } else {
-    mealCounts[meal.id] = next;
-  }
+  if (next === 0) delete mealCounts[meal.id];
+  else mealCounts[meal.id] = next;
   saveMealCounts();
   renderMeals();
   renderCart();
@@ -20,6 +15,20 @@ function multiplyQty(qty, n) {
   const m = qty.match(/^(\d+(?:[.,]\d+)?)(.*)/);
   if (!m) return qty;
   return (Math.round(parseFloat(m[1].replace(',', '.')) * n * 10) / 10) + m[2];
+}
+
+// Additionne une liste de quantités ex: ["150g","200g"] → "350g"
+function sumQtys(qtys) {
+  if (qtys.length === 1) return qtys[0];
+  const parsed = qtys.map(q => {
+    const m = q.match(/^(\d+(?:[.,]\d+)?)(.*)/);
+    return m ? { value: parseFloat(m[1].replace(',', '.')), unit: m[2].trim() } : null;
+  });
+  if (parsed.some(p => p === null)) return qtys[0];
+  const units = [...new Set(parsed.map(p => p.unit))];
+  if (units.length > 1) return qtys.join(' + ');
+  const total = Math.round(parsed.reduce((s, p) => s + p.value, 0) * 10) / 10;
+  return total + (units[0] || '');
 }
 
 function renderMeals() {
@@ -64,29 +73,31 @@ function renderCart() {
     return;
   }
 
+  // Agréger les ingrédients identiques de tous les plats actifs
+  const aggregated = {};
   activeMeals.forEach(meal => {
     const count = getMealCount(meal.id);
-    const label = document.createElement("div");
-    label.className   = "section-label";
-    label.textContent = count > 1 ? `${meal.name} × ${count}` : meal.name;
-    container.appendChild(label);
-
     meal.ingredients.forEach(ing => {
-      const key     = meal.id + "_" + ing.name;
-      const checked = !!checkedItems[key];
-      const el      = document.createElement("div");
-      el.className  = "cart-item" + (checked ? " checked" : "");
-      el.innerHTML  = `
-        <div class="cart-check">${checked ? "✓" : ""}</div>
-        <div class="cart-item-name">${ing.name}</div>
-        <div class="cart-item-qty">${multiplyQty(ing.qty, count)}</div>`;
-      el.onclick = () => {
-        checkedItems[key] = !checkedItems[key];
-        saveCheckedItems();
-        renderCart();
-      };
-      container.appendChild(el);
+      const key = ing.name.toLowerCase().trim();
+      if (!aggregated[key]) aggregated[key] = { name: ing.name, qtys: [] };
+      aggregated[key].qtys.push(multiplyQty(ing.qty, count));
     });
+  });
+
+  Object.entries(aggregated).forEach(([key, item]) => {
+    const checked = !!checkedItems[key];
+    const el      = document.createElement("div");
+    el.className  = "cart-item" + (checked ? " checked" : "");
+    el.innerHTML  = `
+      <div class="cart-check">${checked ? "✓" : ""}</div>
+      <div class="cart-item-name">${item.name}</div>
+      <div class="cart-item-qty">${sumQtys(item.qtys)}</div>`;
+    el.onclick = () => {
+      checkedItems[key] = !checkedItems[key];
+      saveCheckedItems();
+      renderCart();
+    };
+    container.appendChild(el);
   });
 }
 
