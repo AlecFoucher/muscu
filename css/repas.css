@@ -1,0 +1,87 @@
+/* ── Meals grid ── */
+.meals-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-bottom: 24px;
+}
+
+/* ── Meal card ── */
+.meal-card {
+  background: var(--card); border-radius: 14px;
+  overflow: hidden; user-select: none;
+  border: 2px solid transparent;
+}
+.meal-card.has-count { border-color: var(--accent); }
+
+.meal-top { cursor: pointer; transition: opacity 0.1s; }
+.meal-top:active { opacity: 0.7; }
+
+.meal-emoji {
+  width: 100%; aspect-ratio: 4/3;
+  background: var(--card-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 52px;
+}
+
+.meal-info   { padding: 8px 12px 6px; }
+.meal-name   { font-size: 14px; font-weight: 700; margin: 0 0 3px; line-height: 1.3; }
+.meal-macros { font-size: 11px; color: var(--cyan); font-weight: 600; }
+
+/* ── Portion counter ── */
+.meal-counter {
+  display: flex; align-items: center;
+  border-top: 1px solid var(--card-2); margin-top: 8px;
+}
+
+.counter-btn {
+  flex: 1; padding: 10px 0;
+  background: none; border: none;
+  font-size: 20px; font-weight: 700; cursor: pointer;
+  transition: background 0.1s;
+}
+.counter-btn:active          { background: var(--card-2); }
+.counter-btn.minus           { color: var(--red); }
+.counter-btn.minus:disabled  { color: var(--card-2); cursor: default; }
+
+.counter-num {
+  min-width: 32px; text-align: center;
+  font-size: 16px; font-weight: 700; color: var(--accent);
+}
+
+/* ── Shopping list ── */
+.cart-actions {
+  display: flex; justify-content: flex-end; margin-bottom: 4px;
+}
+.cart-clear-btn {
+  font-size: 12px; color: var(--red); font-weight: 600;
+  background: none; border: none; cursor: pointer; padding: 4px 8px;
+}
+
+.cart-empty {
+  text-align: center; padding: 50px 20px;
+  color: var(--muted); font-size: 14px;
+}
+.cart-empty-icon { font-size: 48px; display: block; margin-bottom: 10px; }
+
+.cart-item {
+  background: var(--card); border-radius: 12px;
+  margin-bottom: 8px; padding: 13px 14px;
+  display: flex; gap: 12px; align-items: center;
+  cursor: pointer; user-select: none;
+  transition: background 0.15s;
+}
+.cart-item.checked { background: rgba(16, 185, 129, 0.1); }
+
+.cart-check {
+  flex-shrink: 0; width: 24px; height: 24px;
+  border-radius: 50%; border: 2px solid var(--card-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: white;
+  transition: all 0.15s;
+}
+.cart-item.checked .cart-check { background: var(--green); border-color: var(--green); }
+
+.cart-item-name { font-size: 15px; font-weight: 500; flex: 1; }
+.cart-item.checked .cart-item-name { color: var(--muted); text-decoration: line-through; }
+
+.cart-item-qty { font-size: 13px; color: var(--muted); font-weight: 500; }
+.cart-item.checked .cart-item-qty { color: var(--card-2); }

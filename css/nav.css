@@ -1,0 +1,55 @@
+/* ── Bottom navigation ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100%; max-width: 560px;
+  background: var(--card);
+  border-top: 1px solid var(--card-2);
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 50;
+}
+
+.nav-btn {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 3px; padding: 10px 0 8px;
+  background: none; border: none;
+  color: var(--muted); font-size: 11px; font-weight: 600;
+  cursor: pointer; user-select: none; transition: color 0.15s;
+  position: relative;
+}
+.nav-btn .nav-icon { font-size: 22px; }
+.nav-btn.active { color: var(--accent); }
+
+.nav-badge {
+  position: absolute; top: 6px; right: calc(50% - 18px);
+  background: var(--accent); color: white;
+  border-radius: 999px; font-size: 10px; font-weight: 700;
+  padding: 1px 5px; min-width: 16px; text-align: center;
+  display: none;
+}
+.nav-badge.show { display: block; }
+
+/* ── Sub-tabs (inside Repas page) ── */
+.sub-tabs {
+  display: flex; gap: 6px; padding: 10px 0 14px;
+}
+
+.sub-tab {
+  padding: 8px 18px; border-radius: 999px;
+  background: var(--card); color: var(--muted);
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; border: none; user-select: none;
+  display: flex; align-items: center; gap: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.sub-tab.active { background: var(--accent); color: white; }
+
+.sub-tab-count {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px; font-size: 11px; font-weight: 700;
+  padding: 1px 6px;
+}
+
+.sub-page { display: none; }
+.sub-page.active { display: block; }
