@@ -37,15 +37,63 @@ const DAY_ORDER = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", 
 const MEALS = [
   {
     id: "poulet-riz",
-    name: "Poulet riz brocoli",
-    emoji: "🍗",
-    macros: "~450 kcal · 45g P · 45g G · 8g L",
+    name: "Poulet riz",
+    emoji: "🍗🍚",
+    macros: "~400 kcal · 35g P · 45g G · 7g L",
     ingredients: [
-      { name: "Blanc de poulet",       qty: "150g"      },
-      { name: "Riz basmati",           qty: "80g (cru)" },
-      { name: "Brocoli",               qty: "200g"      },
-      { name: "Huile d'olive",         qty: "1 c.à.c"   },
-      { name: "Épices (paprika, ail)", qty: "QS"        },
+      { name: "Blanc de poulet", qty: "120g" },
+      { name: "Riz basmati", qty: "80g (cru)" },
+      { name: "Huile d'olive", qty: "1 c.à.c" },
+      { name: "Épices", qty: "QS" },
+    ],
+  },
+
+  {
+    id: "poulet-pates",
+    name: "Poulet pâtes",
+    emoji: "🍗🍝",
+    macros: "~420 kcal · 35g P · 50g G · 7g L",
+    ingredients: [
+      { name: "Blanc de poulet", qty: "120g" },
+      { name: "Pâtes", qty: "80g (cru)" },
+      { name: "Huile d'olive", qty: "1 c.à.c" },
+      { name: "Épices", qty: "QS" },
+    ],
+  },
+
+  {
+    id: "omelette-riz",
+    name: "Omelette riz",
+    emoji: "🍳🍚",
+    macros: "~440 kcal · 30g P · 45g G · 15g L",
+    ingredients: [
+      { name: "Œufs", qty: "3" },
+      { name: "Riz basmati", qty: "70g (cru)" },
+      { name: "Sel / poivre", qty: "QS" },
+    ],
+  },
+
+  {
+    id: "steak-riz",
+    name: "Steak haché riz",
+    emoji: "🥩🍚",
+    macros: "~460 kcal · 35g P · 45g G · 12g L",
+    ingredients: [
+      { name: "Steak haché 5%", qty: "150g" },
+      { name: "Riz basmati", qty: "70g (cru)" },
+      { name: "Sel / poivre", qty: "QS" },
+    ],
+  },
+
+  {
+    id: "steak-pates",
+    name: "Steak haché pâtes",
+    emoji: "🥩🍝",
+    macros: "~480 kcal · 35g P · 50g G · 12g L",
+    ingredients: [
+      { name: "Steak haché 5%", qty: "150g" },
+      { name: "Pâtes", qty: "80g (cru)" },
+      { name: "Sel / poivre", qty: "QS" },
     ],
   },
 ];
