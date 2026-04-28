@@ -79,25 +79,45 @@ function renderCart() {
     const count = getMealCount(meal.id);
     meal.ingredients.forEach(ing => {
       const key = ing.name.toLowerCase().trim();
-      if (!aggregated[key]) aggregated[key] = { name: ing.name, qtys: [] };
+      if (!aggregated[key]) aggregated[key] = { name: ing.name, qtys: [], category: ing.category || "Autre" };
       aggregated[key].qtys.push(multiplyQty(ing.qty, count));
     });
   });
 
+  // Grouper par catégorie dans l'ordre défini
+  const byCategory = {};
   Object.entries(aggregated).forEach(([key, item]) => {
-    const checked = !!checkedItems[key];
-    const el      = document.createElement("div");
-    el.className  = "cart-item" + (checked ? " checked" : "");
-    el.innerHTML  = `
-      <div class="cart-check">${checked ? "✓" : ""}</div>
-      <div class="cart-item-name">${item.name}</div>
-      <div class="cart-item-qty">${sumQtys(item.qtys)}</div>`;
-    el.onclick = () => {
-      checkedItems[key] = !checkedItems[key];
-      saveCheckedItems();
-      renderCart();
-    };
-    container.appendChild(el);
+    const cat = item.category;
+    if (!byCategory[cat]) byCategory[cat] = [];
+    byCategory[cat].push({ key, ...item });
+  });
+
+  const categories = [
+    ...(CATEGORY_ORDER || []).filter(c => byCategory[c]),
+    ...Object.keys(byCategory).filter(c => !(CATEGORY_ORDER || []).includes(c)),
+  ];
+
+  categories.forEach(cat => {
+    const header = document.createElement("div");
+    header.className = "cart-category-header";
+    header.textContent = cat;
+    container.appendChild(header);
+
+    byCategory[cat].forEach(item => {
+      const checked = !!checkedItems[item.key];
+      const el      = document.createElement("div");
+      el.className  = "cart-item" + (checked ? " checked" : "");
+      el.innerHTML  = `
+        <div class="cart-check">${checked ? "✓" : ""}</div>
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-qty">${sumQtys(item.qtys)}</div>`;
+      el.onclick = () => {
+        checkedItems[item.key] = !checkedItems[item.key];
+        saveCheckedItems();
+        renderCart();
+      };
+      container.appendChild(el);
+    });
   });
 }
 

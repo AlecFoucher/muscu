@@ -41,10 +41,10 @@ const MEALS = [
     emoji: "🍗🍚",
     macros: "~400 kcal · 35g P · 45g G · 7g L",
     ingredients: [
-      { name: "Blanc de poulet", qty: "120g" },
-      { name: "Riz basmati", qty: "80g (cru)" },
-      { name: "Huile d'olive", qty: "1 c.à.c" },
-      { name: "Épices", qty: "QS" },
+      { name: "Blanc de poulet", qty: "120g",      category: "Viandes & Protéines" },
+      { name: "Riz basmati",     qty: "80g (cru)",  category: "Féculents" },
+      { name: "Huile d'olive",   qty: "1 c.à.c",   category: "Épicerie" },
+      { name: "Épices",          qty: "QS",         category: "Épicerie" },
     ],
   },
 
@@ -54,10 +54,10 @@ const MEALS = [
     emoji: "🍗🍝",
     macros: "~420 kcal · 35g P · 50g G · 7g L",
     ingredients: [
-      { name: "Blanc de poulet", qty: "120g" },
-      { name: "Pâtes", qty: "80g (cru)" },
-      { name: "Huile d'olive", qty: "1 c.à.c" },
-      { name: "Épices", qty: "QS" },
+      { name: "Blanc de poulet", qty: "120g",      category: "Viandes & Protéines" },
+      { name: "Pâtes",           qty: "80g (cru)",  category: "Féculents" },
+      { name: "Huile d'olive",   qty: "1 c.à.c",   category: "Épicerie" },
+      { name: "Épices",          qty: "QS",         category: "Épicerie" },
     ],
   },
 
@@ -67,9 +67,9 @@ const MEALS = [
     emoji: "🍳🍚",
     macros: "~440 kcal · 30g P · 45g G · 15g L",
     ingredients: [
-      { name: "Œufs", qty: "3" },
-      { name: "Riz basmati", qty: "70g (cru)" },
-      { name: "Sel / poivre", qty: "QS" },
+      { name: "Œufs",        qty: "3",          category: "Viandes & Protéines" },
+      { name: "Riz basmati", qty: "70g (cru)",  category: "Féculents" },
+      { name: "Sel / poivre", qty: "QS",        category: "Épicerie" },
     ],
   },
 
@@ -79,9 +79,9 @@ const MEALS = [
     emoji: "🥩🍚",
     macros: "~460 kcal · 35g P · 45g G · 12g L",
     ingredients: [
-      { name: "Steak haché 5%", qty: "150g" },
-      { name: "Riz basmati", qty: "70g (cru)" },
-      { name: "Sel / poivre", qty: "QS" },
+      { name: "Steak haché 5%", qty: "150g",      category: "Viandes & Protéines" },
+      { name: "Riz basmati",    qty: "70g (cru)",  category: "Féculents" },
+      { name: "Sel / poivre",   qty: "QS",         category: "Épicerie" },
     ],
   },
 
@@ -91,9 +91,12 @@ const MEALS = [
     emoji: "🥩🍝",
     macros: "~480 kcal · 35g P · 50g G · 12g L",
     ingredients: [
-      { name: "Steak haché 5%", qty: "150g" },
-      { name: "Pâtes", qty: "80g (cru)" },
-      { name: "Sel / poivre", qty: "QS" },
+      { name: "Steak haché 5%", qty: "150g",      category: "Viandes & Protéines" },
+      { name: "Pâtes",          qty: "80g (cru)",  category: "Féculents" },
+      { name: "Sel / poivre",   qty: "QS",         category: "Épicerie" },
     ],
   },
+
 ];
+
+const CATEGORY_ORDER = ["Viandes & Protéines", "Féculents", "Épicerie"];
