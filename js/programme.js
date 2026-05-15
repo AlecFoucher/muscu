@@ -55,8 +55,14 @@ function renderExercises() {
           <span class="pill reps">${ex.reps}${ex.sets === 1 ? "" : " reps"}</span>
           ${ex.rest > 0 ? `<span class="pill rest" data-rest="${ex.rest}" data-name="${ex.name}">⏱ ${ex.rest}s repos</span>` : ""}
         </div>
-      </div>`;
+      </div>
+      ${ex.media ? `<button class="media-btn" data-media="${ex.media}" data-exname="${ex.name}" aria-label="Voir la démonstration">▶</button>` : ""}`;
     card.onclick = (e) => {
+      const mediaBtn = e.target.closest(".media-btn");
+      if (mediaBtn) {
+        openMedia(mediaBtn.dataset.media, mediaBtn.dataset.exname);
+        return;
+      }
       if (e.target.classList.contains("rest")) {
         startTimer(+e.target.dataset.rest, e.target.dataset.name);
         return;
@@ -103,4 +109,25 @@ function renderProgramme() {
     currentDay === today ? "Séance du jour" : "Séance du " + currentDay;
   renderDayTabs();
   renderExercises();
+}
+
+function openMedia(src, name) {
+  const overlay = document.getElementById("media-overlay");
+  const title   = document.getElementById("media-title");
+  const content = document.getElementById("media-content");
+  const isVideo = /\.(mp4|webm|mov|ogg)$/i.test(src);
+
+  title.textContent = name;
+  if (isVideo) {
+    content.innerHTML = `<video src="${src}" controls autoplay playsinline loop></video>`;
+  } else {
+    content.innerHTML = `<img src="${src}" alt="${name}">`;
+  }
+  overlay.classList.add("show");
+}
+
+function closeMedia() {
+  const overlay = document.getElementById("media-overlay");
+  overlay.classList.remove("show");
+  document.getElementById("media-content").innerHTML = "";
 }

@@ -101,6 +101,17 @@
   </div>
 </div>
 
+<!-- ══ Media overlay ══ -->
+<div class="media-overlay" id="media-overlay" onclick="if(event.target===this)closeMedia()">
+  <div class="media-modal">
+    <div class="media-header">
+      <span class="media-title" id="media-title"></span>
+      <button class="media-close" onclick="closeMedia()">✕</button>
+    </div>
+    <div class="media-content" id="media-content"></div>
+  </div>
+</div>
+
 <!-- Scripts : ordre important (data & storage avant les modules) -->
 <script src="js/data.js?v=2"></script>
 <script src="js/storage.js?v=2"></script>
