@@ -114,6 +114,30 @@
 .media-content img  { width: 100%; height: auto; display: block; }
 .media-content video { width: 100%; height: auto; display: block; max-height: 70vh; }
 
+/* ── Shaker card ── */
+.shaker-card {
+  background: var(--card); border-radius: 14px;
+  padding: 14px 16px; margin-bottom: 16px;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+.shaker-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px;
+}
+.shaker-icon  { font-size: 20px; }
+.shaker-title { font-size: 15px; font-weight: 700; }
+.shaker-items { display: flex; flex-direction: column; gap: 8px; }
+.shaker-item  {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 10px;
+  background: var(--card-2); cursor: pointer;
+  font-size: 15px; font-weight: 500;
+  transition: background 0.15s;
+}
+.shaker-item.done { background: rgba(16, 185, 129, 0.12); }
+.shaker-item.done span { color: var(--muted); text-decoration: line-through; }
+.shaker-item.done .check { background: var(--green); border-color: var(--green); }
+
 /* ── Rest day ── */
 .rest-day { text-align: center; padding: 50px 20px; color: var(--muted); }
 .rest-day .rest-emoji { font-size: 56px; }

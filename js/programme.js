@@ -1,5 +1,37 @@
 let currentDay = DAY_ORDER[(new Date().getDay() + 6) % 7];
 
+const SHAKER_ITEMS = ["Whey", "Protéine"];
+
+function renderShaker(container) {
+  const done = loadShakerDone(currentDay);
+  const card = document.createElement("div");
+  card.className = "shaker-card";
+  card.innerHTML = `
+    <div class="shaker-header">
+      <span class="shaker-icon">🥤</span>
+      <span class="shaker-title">Shaker</span>
+    </div>
+    <div class="shaker-items">
+      ${SHAKER_ITEMS.map((item, i) => `
+        <div class="shaker-item${done.includes(i) ? " done" : ""}" data-idx="${i}">
+          <div class="check">${done.includes(i) ? "✓" : ""}</div>
+          <span>${item}</span>
+        </div>`).join("")}
+    </div>`;
+  card.querySelectorAll(".shaker-item").forEach(el => {
+    el.onclick = () => toggleShakerDone(+el.dataset.idx);
+  });
+  container.appendChild(card);
+}
+
+function toggleShakerDone(idx) {
+  const done = loadShakerDone(currentDay);
+  const pos  = done.indexOf(idx);
+  if (pos >= 0) done.splice(pos, 1); else done.push(idx);
+  saveShakerDone(currentDay, done);
+  renderExercises();
+}
+
 function renderDayTabs() {
   const today = DAY_ORDER[(new Date().getDay() + 6) % 7];
   const tabs  = document.getElementById("day-tabs");
@@ -21,7 +53,8 @@ function renderExercises() {
   const exos = PROGRAM[currentDay];
 
   if (exos.length === 0) {
-    container.innerHTML = `
+    renderShaker(container);
+    container.innerHTML += `
       <div class="rest-day">
         <div class="rest-emoji">😴</div>
         <h2>Jour de repos</h2>
@@ -33,6 +66,9 @@ function renderExercises() {
 
   document.getElementById("progress-wrap").style.display = "block";
   const done = loadDone(currentDay);
+
+  renderShaker(container);
+
   let lastGroup = null;
 
   exos.forEach((ex, i) => {
