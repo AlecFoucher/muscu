@@ -4,68 +4,59 @@
 // Place le fichier dans le dossier /media/
 
 const PROGRAM = {
-  Lundi: [
-    { group: "Pectoraux", name: "Chest Press Machine", sets: 4, reps: "8", rest: 90, media: "media/chest-press.gif" },
-    { group: "Pectoraux", name: "Pec Deck Fly", sets: 4, reps: "10", rest: 60, media: "media/pec-deck-fly.gif" },
-    { group: "Épaules", name: "Shoulder Press Machine", sets: 3, reps: "12", rest: 90, media: "media/shoulder-press.gif" },
-    { group: "Épaules", name: "Dumbbell Lateral Raise", sets: 4, reps: "10", rest: 60, media: "media/lateral-raise.gif" },
-    { group: "Triceps", name: "Tricep Rope Push-Down", sets: 4, reps: "10", rest: 60, media: "media/tricep-rope-pushdown.gif" },
-    { group: "Triceps", name: "Dips", sets: 2, reps: "To Failure", rest: 90, media: "media/dips.gif" },
+  "Jour 1": [
+    { group: "Pectoraux", name: "Développé couché barre / Machine convergente", sets: 4, reps: "6-8",   rest: 150, media: "media/bench-press.gif" },
+    { group: "Pectoraux", name: "Développé incliné haltères / Machine inclinée", sets: 3, reps: "8-10",  rest: 120, media: "media/incline-press.gif" },
+    { group: "Pectoraux", name: "Chest Press assis",                              sets: 3, reps: "10-12", rest: 90,  media: "media/chest-press.gif" },
+    { group: "Pectoraux", name: "Pec Deck / Écartés poulie",                      sets: 3, reps: "12-15", rest: 90,  media: "media/pec-deck-fly.gif" },
+    { group: "Biceps",    name: "Curl barre EZ",                                  sets: 3, reps: "8-12",  rest: 90,  media: "media/ez-bar-curl.gif" },
+    { group: "Biceps",    name: "Curl incliné haltères",                          sets: 3, reps: "10-12", rest: 90,  media: "media/incline-curl.gif" },
+    { group: "Biceps",    name: "Curl marteau haltères / Corde",                  sets: 2, reps: "12-15", rest: 60,  media: "media/hammer-curl.gif" },
   ],
 
-  Mardi: [
-    { group: "Biceps", name: "Dumbbell Bicep Curls", sets: 3, reps: "12", rest: 60, media: "media/bicep-curl.gif" },
-    { group: "Biceps", name: "Dumbbell Hammer Curls", sets: 3, reps: "12", rest: 60, media: "media/hammer-curl.gif" },
-    { group: "Dos", name: "Lat Pulldown Machine", sets: 3, reps: "10", rest: 90, media: "media/lat-pulldown.gif" },
-    { group: "Dos", name: "Assisted Pullups", sets: 3, reps: "8", rest: 90, media: "media/assisted-pullup.gif" },
-    { group: "Dos", name: "Seated Cable Row", sets: 3, reps: "10", rest: 90, media: "media/seated-cable-row.gif" },
-    { group: "Arrière épaules", name: "Reverse Pec Deck Fly", sets: 3, reps: "12", rest: 60, media: "media/reverse-fly.gif" },
+  "Jour 2": [
+    { group: "Cardio", name: "Marche dehors",                          sets: 1, reps: "30-60 min", rest: 0, media: "media/walking.gif" },
+    { group: "Cardio", name: "Tapis incliné (8-12 % · 4,5-6 km/h)", sets: 1, reps: "20-30 min", rest: 0, media: "media/treadmill.gif" },
   ],
 
-  Mercredi: [
-    { group: "Jambes", name: "Leg Press", sets: 3, reps: "8", rest: 120, media: "media/leg-press.gif" },
-    { group: "Quadriceps", name: "Leg Extension", sets: 4, reps: "10", rest: 60, media: "media/leg-extension.gif" },
-    { group: "Ischios", name: "Seated Hamstring Curl", sets: 3, reps: "10", rest: 60, media: "media/hamstring-curl.gif" },
-    { group: "Jambes", name: "Walking Lunges", sets: 3, reps: "8", rest: 90, media: "media/walking-lunges.gif" },
-    { group: "Mollets", name: "Standing Calf Raise", sets: 3, reps: "15", rest: 60, media: "media/calf-raise.gif" },
-    { group: "Abdos", name: "Crunches", sets: 2, reps: "12", rest: 45, media: "media/crunches.gif" },
-    { group: "Abdos", name: "Leg Raises", sets: 2, reps: "12", rest: 45, media: "media/leg-raises.gif" },
-    { group: "Abdos", name: "Plank", sets: 3, reps: "20 seconds", rest: 45, media: "media/plank.gif" },
+  "Jour 3": [
+    { group: "Jambes",      name: "Presse à cuisses",                                   sets: 4, reps: "8-12",    rest: 120, media: "media/leg-press.gif" },
+    { group: "Quadriceps",  name: "Hack squat / Squat guidé Smith machine",             sets: 3, reps: "8-10",    rest: 120, media: "media/hack-squat.gif" },
+    { group: "Ischios",     name: "Soulevé de terre jambes tendues haltères / Barre",   sets: 3, reps: "8-12",    rest: 120, media: "media/romanian-deadlift.gif" },
+    { group: "Ischios",     name: "Leg curl assis ou couché",                           sets: 3, reps: "10-15",   rest: 90,  media: "media/hamstring-curl.gif" },
+    { group: "Quadriceps",  name: "Leg extension",                                      sets: 3, reps: "12-15",   rest: 60,  media: "media/leg-extension.gif" },
+    { group: "Mollets",     name: "Mollets debout / Presse",                            sets: 4, reps: "12-20",   rest: 60,  media: "media/calf-raise.gif" },
+    { group: "Abdos",       name: "Crunch à la poulie",                                 sets: 3, reps: "12-20",   rest: 45,  media: "media/cable-crunch.gif" },
+    { group: "Abdos",       name: "Relevés de jambes chaise romaine / Suspendu",        sets: 3, reps: "10-15",   rest: 45,  media: "media/leg-raises.gif" },
+    { group: "Abdos",       name: "Gainage",                                            sets: 2, reps: "45-60 sec", rest: 45, media: "media/plank.gif" },
   ],
 
-  Jeudi: [],
-
-  Vendredi: [
-    { group: "Pectoraux", name: "Chest Press Machine", sets: 4, reps: "8", rest: 90, media: "media/chest-press.gif" },
-    { group: "Pectoraux", name: "Pec Deck Fly", sets: 4, reps: "10", rest: 60, media: "media/pec-deck-fly.gif" },
-    { group: "Épaules", name: "Shoulder Press Machine", sets: 3, reps: "12", rest: 90, media: "media/shoulder-press.gif" },
-    { group: "Épaules", name: "Dumbbell Lateral Raise", sets: 4, reps: "10", rest: 60, media: "media/lateral-raise.gif" },
-    { group: "Triceps", name: "Tricep Rope Push-Down", sets: 4, reps: "10", rest: 60, media: "media/tricep-rope-pushdown.gif" },
-    { group: "Triceps", name: "Dips", sets: 2, reps: "To Failure", rest: 90, media: "media/dips.gif" },
+  "Jour 4": [
+    { group: "Repos actif", name: "Marche tranquille",  sets: 1, reps: "30-45 min", rest: 0, media: "media/walking.gif" },
+    { group: "Repos actif", name: "Mobilité légère",    sets: 1, reps: "10-15 min", rest: 0, media: "media/mobility.gif" },
   ],
 
-  Samedi: [
-    { group: "Biceps", name: "Dumbbell Bicep Curls", sets: 3, reps: "12", rest: 60, media: "media/bicep-curl.gif" },
-    { group: "Biceps", name: "Dumbbell Hammer Curls", sets: 3, reps: "12", rest: 60, media: "media/hammer-curl.gif" },
-    { group: "Dos", name: "Lat Pulldown Machine", sets: 3, reps: "10", rest: 90, media: "media/lat-pulldown.gif" },
-    { group: "Dos", name: "Assisted Pullups", sets: 3, reps: "8", rest: 90, media: "media/assisted-pullup.gif" },
-    { group: "Dos", name: "Seated Cable Row", sets: 3, reps: "10", rest: 90, media: "media/seated-cable-row.gif" },
-    { group: "Arrière épaules", name: "Reverse Pec Deck Fly", sets: 3, reps: "12", rest: 60, media: "media/reverse-fly.gif" },
+  "Jour 5": [
+    { group: "Dos",      name: "Tirage vertical prise neutre / Pronation",      sets: 4, reps: "8-10",  rest: 90, media: "media/lat-pulldown.gif" },
+    { group: "Dos",      name: "Rowing machine convergente / Rowing assis",     sets: 4, reps: "8-10",  rest: 90, media: "media/seated-cable-row.gif" },
+    { group: "Dos",      name: "Rowing poulie basse",                           sets: 3, reps: "10-12", rest: 90, media: "media/low-cable-row.gif" },
+    { group: "Dos",      name: "Pull-over poulie / Machine",                    sets: 3, reps: "12-15", rest: 75, media: "media/pullover.gif" },
+    { group: "Épaules",  name: "Face pull",                                     sets: 3, reps: "12-20", rest: 60, media: "media/face-pull.gif" },
+    { group: "Triceps",  name: "Extension triceps corde à la poulie",           sets: 3, reps: "10-15", rest: 75, media: "media/tricep-rope-pushdown.gif" },
+    { group: "Triceps",  name: "Extension triceps au-dessus de la tête corde",  sets: 3, reps: "12-15", rest: 75, media: "media/overhead-tricep.gif" },
+    { group: "Triceps",  name: "Dips assistés / Machine dips",                  sets: 2, reps: "8-12",  rest: 90, media: "media/dips.gif" },
   ],
 
-  Dimanche: [
-    { group: "Jambes", name: "Leg Press", sets: 3, reps: "8", rest: 120, media: "media/leg-press.gif" },
-    { group: "Quadriceps", name: "Leg Extension", sets: 4, reps: "10", rest: 60, media: "media/leg-extension.gif" },
-    { group: "Ischios", name: "Seated Hamstring Curl", sets: 3, reps: "10", rest: 60, media: "media/hamstring-curl.gif" },
-    { group: "Jambes", name: "Walking Lunges", sets: 3, reps: "8", rest: 90, media: "media/walking-lunges.gif" },
-    { group: "Mollets", name: "Standing Calf Raise", sets: 3, reps: "15", rest: 60, media: "media/calf-raise.gif" },
-    { group: "Abdos", name: "Crunches", sets: 2, reps: "12", rest: 45, media: "media/crunches.gif" },
-    { group: "Abdos", name: "Leg Raises", sets: 2, reps: "12", rest: 45, media: "media/leg-raises.gif" },
-    { group: "Abdos", name: "Plank", sets: 3, reps: "20 seconds", rest: 45, media: "media/plank.gif" },
+  "Jour 6": [
+    { group: "Cardio", name: "Marche dehors",                          sets: 1, reps: "45-60 min", rest: 0, media: "media/walking.gif" },
+    { group: "Cardio", name: "Tapis incliné (8-12 % · 4,5-6 km/h)", sets: 1, reps: "20-30 min", rest: 0, media: "media/treadmill.gif" },
+    { group: "Cardio", name: "Jogging léger",                          sets: 1, reps: "15-25 min", rest: 0, media: "media/jogging.gif" },
   ],
+
+  "Jour 7": [],
 };
 
-const DAY_ORDER = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+const DAY_ORDER = ["Jour 1", "Jour 2", "Jour 3", "Jour 4", "Jour 5", "Jour 6", "Jour 7"];
 
 const MEALS = [
   {
